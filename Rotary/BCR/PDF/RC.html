@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recibo de Caja</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+        /* Estilos Globales */
+        * {
+          box-sizing: border-box;
+        }
+        
+        html {
+          font-family: 'Inter', sans-serif;
+          line-height: 1.2;
+          font-size: 12px;
+          text-size-adjust: 100%;
+          color: #333;
+        }
+        
+        .PDF {
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+          }
+        
+        .cs-invoice {
+          max-width: 800px;
+          margin: auto;
+          background: #fff;
+          padding: 10px;
+          border-radius: 10px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .cs-invoice_head {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+        
+        .cs-invoice_table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        
+        .cs-invoice_table td {
+          vertical-align: top;
+        }
+        
+        .cs-invoice_left {
+          text-align: left;
+        }
+
+        .large-text {
+            font-size: 20px; /* Ajusta el tamaño según tus necesidades */
+        }        
+        
+        .cs-invoice_right {
+          text-align: right;
+        }
+        
+        .cs-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 10px 0;
+          font-size: 10px;
+          background-color: #fff;
+        }
+        
+        .cs-table th, .cs-table td {
+          padding: 12px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+        
+        .cs-table th {
+          background-color: #e6e6e6;
+          font-weight: 600;
+          color: #555;
+        }
+        
+        .cs-table tbody tr:hover {
+          background-color: #f2f2f2;
+        }
+        
+        .cs-footer {
+          margin-top: 5px;
+          border-top: 1px solid #ccc;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+        
+        .cs-total {
+          width: 50%;
+          text-align: right;
+        }
+        
+        .cs-company-info {
+          margin-top: 10px;
+          padding: 10px;
+          border-top: 1px solid #ccc;
+          
+          color: #666;
+        }
+        
+        .cs-invoice_info {
+          color: #333;
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+  
+        /* Ajustes para la tabla dentro de .cs-footer */
+        .cs-footer .cs-table {
+          width: 45%;
+          border: 2px solid #666;
+          border-collapse: collapse;
+        }
+  
+        .cs-footer .cs-table th,
+        .cs-footer .cs-table td {
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+        }
+  
+        .cs-footer .cs-table th {
+          background-color: #e0e0e0;
+          color: #333;
+        }
+  
+        .cs-footer .cs-table tbody tr:hover {
+          background-color: #f2f2f2;
+        }
+  
+        /* Estilos para el recibo de caja */
+        .cs-receipt {
+          margin-top: 10px;
+        }
+  
+        .cs-signature table {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+            border: none;
+        }
+        
+        .cs-signature td {
+            padding: 20px;
+            vertical-align: bottom;
+        }
+        
+        .cs-signature .line {
+            border-top: 1px solid #000;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        /* Media Queries para Diseño Responsivo */
+        @media (max-width: 600px) {
+          .cs-invoice_head {
+            flex-direction: column;
+            text-align: center;
+          }
+          .cs-invoice_left, .cs-invoice_right {
+            margin-bottom: 10px;
+          }
+          .cs-signature {
+            flex-direction: column;
+            align-items: center;
+          }
+          .cs-signature div {
+            width: 100%;
+            margin-bottom: 20px;
+          }
+        }
+        @media print {
+            /* Ocultar botones en impresión */
+            button {
+              display: none;
+            }
+    
+            /* Ajustar márgenes y tamaño del contenido para impresión */
+            body, .PDF {
+              margin: 0;
+              padding: 0;
+            }
+    
+            /* Aplicar colores correctos en impresión */
+            thead th {
+              -webkit-print-color-adjust: exact;
+              color-adjust: exact;
+              background-color: #e6e6e6 !important;
+            }
+    
+            /* Evitar que el contenido se corte en páginas */
+            .cs-invoice {
+              page-break-inside: avoid;
+            }
+          }
+    </style>
+    <script>
+        function printInvoice() {
+          window.print();
+        }
+  
+        function generatePDF() {
+          const invoice = document.querySelector('.PDF');  // Selecciona el contenido que quieres convertir a PDF
+          
+          // Configuraciones adicionales para html2pdf
+          const options = {
+            margin: 30,
+            filename: 'invoice.pdf',
+            html2canvas: { scale: 2},
+            jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+          };
+  
+          html2pdf().from(invoice).set(options).save();  // Convierte y descarga el PDF
+        }
+    </script>
+</head>
+<body>
+    <button onclick="printInvoice()">Imprimir Factura</button>
+    <button onclick="generatePDF()">Descargar PDF</button>
+<div class="PDF">
+    <div class="cs-invoice">
+        <div class="cs-invoice_head">
+            <table class="cs-invoice_table">
+              <tr>
+                <td class="cs-invoice_left">
+                    <p class="cs-invoice_info large-text"><strong>Edificio:</strong> Giraupa 3 y 4 PH</p>
+                    <p class="cs-invoice_info large-text"><strong>NIT:</strong> 811046526</p>
+                    <p class="cs-invoice_info"><strong>Número de Resivo de Caja:</strong> #123456</p>
+                    <p class="cs-invoice_info"><strong>Código:</strong> ABC123</p>
+                </td>            
+                <td class="cs-invoice_right">
+                  <img src="img/logo.svg" alt="Logo" style="width: 200px;">
+                </td>
+              </tr>
+            </table>
+          </div>
+        
+          <div class="cs-invoice_head">
+            <table class="cs-invoice_table">
+                <tr>
+                    <td class="cs-invoice_left">
+                        <p><strong>Invoice To:</strong></p>
+                        <p>Jennifer Richards<br>365 Bloor Street East<br>Toronto, Ontario, Canada</p>
+                    </td>
+                    <td class="cs-invoice_right">
+                        <p><strong>Pay To:</strong></p>
+                        <p>Biman Airlines<br>237 Roanoke Road<br>North York, Ontario, Canada</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- Nuevo Recibo de Caja -->
+        <div class="cs-receipt">
+            <p><strong>Por concepto de:</strong> Pago de administración</p>
+            
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Código de Cuenta</th>
+                  <th>Concepto</th>
+                  <th>Terceros</th>
+                  <th>Débito</th>
+                  <th>Crédito</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>001</td>
+                  <td>Cuota de Administración</td>
+                  <td>Juan Pérez</td>
+                  <td>$1000000</td>
+                  <td>$1000000</td>
+                  <td>$1000000</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Mantenimiento</td>
+                  <td>Juan Pérez</td>
+                  <td>$200</td>
+                  <td>$0</td>
+                  <td>$200</td>
+                </tr>
+                <!-- Fila para Valor en letras y Totales -->
+                <tr>
+                  <td colspan="3"><strong>Valor en letras:</strong> Diez millones docientos mil cutrocientos pesos / Pesos COP</td>
+                  <td><strong>Total:</strong></td>
+                  <td> $0</td>
+                  <td> $700</td>
+                </tr>
+              </tbody>
+            </table>
+    
+            <div class="cs-signature">
+                <table class="cs-table">
+                    <tr>
+                        <td>
+                            <div class="line"></div>
+                            <p>Firma y sello del beneficiario</p>
+                        </td>
+                        <td>
+                            <div class="line"></div>
+                            <p>Recibido por</p>
+                        </td>
+                        <td>
+                            <div class="line"></div>
+                            <p>Aprobado por</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>        
+            <p><strong>CC/NIT:</strong> 123456789</p>
+        </div>
+        <div class="cs-company-info">
+            <p><strong>Company Description:</strong> Biman Airlines is dedicated to providing exceptional travel experiences, offering top-notch services and a commitment to safety and customer satisfaction. We value our clients and aim to exceed their expectations with every flight.</p>
+        </div>
+    </div>
+</div>
+</body>
+
+<!-- Incluye la librería html2pdf -->
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard control</title>
+    <!-- Bootstrap desde node_modules -->
+    <link rel="stylesheet" href="{{ url_for('send_node_module', filename='bootstrap/dist/css/bootstrap.min.css') }}">
+    <!-- Importar Poppins desde node_modules -->
+    <link rel="stylesheet" href="{{ url_for('send_node_module', filename='typeface-poppins/index.css') }}">
+
+    <!-- Estilos y scripts adicionales -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_sidebar.css') }}">
+
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+    <!-- Scripts de FullCalendar -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/interaction.min.js'></script>
+
+    <!-- Tus scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Graficas.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Calendario.js') }}"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <!-- Imagen a la izquierda -->
+            <div class="header-left">
+                <img src="{{ url_for('static', filename='bg.jpg') }}" alt="Logo" class="logo">
+            </div>
+            <!-- Menú de navegación en el centro -->
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> Acerca</a></li>
+                    <li><a href="#"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="#"><i class="fas fa-briefcase"></i> Trabajos</a></li>
+                    <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+            <!-- Controles a la derecha -->
+            <div class="header-right nav-controls">
+                <button id="theme-toggle"><i class="fas fa-sun"></i></button>
+                <div class="profile-menu-container">
+                    <button id="profile-btn"><i class="fas fa-user"></i></button>
+                    <div class="profile-menu hidden">
+                        <p>{{ email }}</p>
+                        <ul>
+                            <li><a href="#profile"><i class="fas fa-user"></i> Ver perfil</a></li>
+                            <li><a href="#settings"><i class="fas fa-cogs"></i> Configuración</a></li>
+                            <li><a href="{{ url_for('logout') }}"><i class="fa fa-right-from-bracket"></i> Cerrar sesión</a></li>
+                        </ul>                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div id="tab1" class="tabcontent active">
+            <div class="container-fluid">
+                <!-- Junta Directiva -->
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h2>Junta Directiva</h2>
+                    </div>
+                    <div class="col-12 d-flex flex-wrap justify-content-center">
+                        {% for miembro in junta %}
+                        <div class="card m-2 text-center" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ miembro.nombre_cargo }}</h5>
+                                <p class="card-text">{{ miembro.nombres }} {{ miembro.apellidos }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            
+                <!-- Comités del Club -->
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h3>Comités del Club</h3>
+                    </div>
+                    <div class="col-12 d-flex flex-wrap justify-content-center">
+                        {% for comite in comites %}
+                        <div class="card m-2 text-center" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ comite.nombre_comite }}</h5>
+                                <ul class="list-group list-group-flush">
+                                    {% for miembro in comite.miembros %}
+                                    <li class="list-group-item">{{ miembro.nombres }} {{ miembro.apellidos }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <button class="btn btn-outline-secondary m-2" style="width: 18rem;">Añadir comité</button>
+                    </div>
+                </div>
+            
+                <!-- Gráficas -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Gráfica de Ambiente</h3>
+                                <div class="grafica-container">
+                                    <canvas id="grafica-amb"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Gráfico de Pagos</h3>
+                                <div class="grafica-container">
+                                    <canvas id="grafico-pagos"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Información -->
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Información General</h3>
+                                <p>Contenido específico para la sección.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Información Detallada</h3>
+                                <p>Contenido específico para la sección.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>            
+        
+
+        <div id="tab2" class="tabcontent">
+            <div class="container-fluid socios">
+            
+                <!-- Texto corto, barra de búsqueda y botones en una sola línea -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <!-- Texto a la izquierda ocupando el 60% -->
+                    <div class="text-left w-60">
+                        <p class="lead mb-0">Lista actualizada de socios del club</p>
+                    </div>
+
+                    <!-- Barra de búsqueda centrada ocupando el 20% -->
+                    <div class="input-group w-20">
+                        <input type="text" class="form-control" placeholder="Buscar por nombre, email, etc." name="search" id="search" value="{{ request.args.get('search', '') }}">
+                    </div>
+
+                    <!-- Botones a la derecha ocupando el 20%, centrados horizontalmente -->
+                    <div class="w-20 d-flex" style="margin-left: 10px; margin-bottom: 5px;">
+                        <button class="btn btn-outline-secondary mr-2" style="margin-left: 3px;" title="Recargar" onclick="window.location.reload()">
+                            <i class="fa fa-sync"></i>
+                        </button>
+                        <button class="btn btn-outline-danger mr-2" style="margin-left: 3px;" title="Exportar PDF">
+                            <i class="fa fa-file-pdf"></i>
+                        </button>
+                        <button class="btn btn-outline-success" style="margin-left: 3px;" title="Exportar Excel">
+                            <i class="fa fa-file-excel"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            
+                <!-- Tabla de socios -->
+                <div class="table-responsive panel">
+                    <table class="table table-striped table-hover tabla">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th>ID Rotary</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Celular</th>
+                                <th>Celular Emergencia</th>
+                                <th>Dirección</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Cargo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for socio in socios %}
+                            <tr>
+                                <td>{{ socio.usuarioIDRotary }}</td>
+                                <td>{{ socio.nombres }}</td>
+                                <td>{{ socio.apellidos }}</td>
+                                <td class="tab-link"><a href="mailto:{{ socio.correo }}">{{ socio.correo }}</a></td>
+                                <td class="tab-link"><a href="https://wa.me/{{ socio.celular }}">{{ socio.celular }}</a></td>
+                                <td class="tab-link"><a href="https://wa.me/{{ socio.celular_emergencia }}">{{ socio.celular_emergencia }}</a></td>
+                                <td>{{ socio.direccion }}</td>
+                                <td>{{ socio.fecha_nacimiento }}</td>
+                                <td>{{ socio.informacion_adicional }}</td>
+                                <td>
+                                    {% if socio.estado == 1 %}
+                                        <span class="badge badge-success">Activo</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Inactivo</span>
+                                    {% endif %}
+
+                                </td>
+                                <td>
+                                    <div class="action-container">
+                                        <a href="#" class="btn btn-sm btn-outline-primary" title="Editar">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>            
+
+
+        <div id="tab3" class="tabcontent">
+            <!-- Contenedor de Tareas y Botón -->
+            <div id="external-events" class="container mt-4">
+                <p><strong>Tareas Disponibles</strong></p>
+                <div class="row" id="task-container">
+                    <!-- Aquí irán los botones generados por el for -->
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="01:00" data-color="#ff9f89" draggable="true">Tarea 1</div>
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="02:30" data-color="#ffbf00" draggable="true">Tarea 2</div>
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="00:45" data-color="#008000" draggable="true">Tarea 3</div>
+                    <!-- Se pueden agregar más botones de tarea -->
+                </div>
+                <div class="text-center mt-3">
+                    <button id="add-event" class="btn btn-primary" onclick="addEvent()">Agregar Tarea</button>
+                </div>
+            </div>
+        
+            <!-- Contenedor de los calendarios -->
+            <div id="calendars" class="d-flex flex-wrap mt-4">
+                <div id="calendar1" class="calendar-item"></div>
+                <div id="calendar2" class="calendar-item"></div>
+                <div id="calendar3" class="calendar-item"></div>
+            </div>
+        </div>
+    </main>
+
+    <section class="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="menu">
+            <a class="enlace activo" onclick="openTab('tab1', this)">
+                <i class="fas fa-chart-pie"></i>
+                <span>Estadísticas</span>
+            </a>                     
+            <a class="enlace" onclick="openTab('tab2', this)">
+                <i class="fas fa-home"></i>
+                <span>Socios</span>
+            </a>
+            <a class="enlace" onclick="openTab('tab3', this)">
+                <i class="fas fa-calendar"></i>
+                <span>Calendario</span>
+            </a>            
+            <a class="enlace" onclick="openTab('tab4', this)">
+                <i class="fas fa-book"></i>
+                <span>Contabilidad</span>
+            </a>
+            <a class="enlace" onclick="openTab('tab5', this)">
+                <i class="fas fa-list"></i>
+                <span>Formularios</span>
+            </a>
+            <div class="enlace" onclick="webdomotycort()">
+                <i class="fas fa-globe"></i>
+                <span>Nosotros</span>
+            </div>
+
+        </div>
+    </section>
+
+<!-- Modal para Editar/Eliminar Tarea -->
+<div class="modal" id="taskModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5>Editar Tarea</h5>
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Título</label>
+                    <input type="text" class="form-control" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskStart">Inicio</label>
+                    <input type="datetime-local" class="form-control" id="taskStart" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskEnd">Fin</label>
+                    <input type="datetime-local" class="form-control" id="taskEnd">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" form="taskForm">Guardar Cambios</button>
+            <button type="button" class="btn btn-danger" id="deleteButton">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>

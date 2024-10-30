@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('send_node_module', filename='bootstrap/dist/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('send_node_module', filename='bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('send_node_module', filename='@fortawesome/fontawesome-free/css/all.min.css') }}">
+
+
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css">
+        <!-- jQuery (requerido por DataTables) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+
+        <!-- FullCalendar CSS -->
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+        <!-- Scripts de FullCalendar -->
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/interaction.min.js'></script>
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+        <!-- Tus scripts -->
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Graficas.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Calendario.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/creador-formularios.js') }}"></script>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Corporación BCR</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="bg-dark text-white py-3 d-flex justify-content-between align-items-center">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="image-container" style="background-color: white; border: 2px solid #ccc; border-radius: 10px;  display: inline-block;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/RCLogo.svg" alt="Logo" class="img-fluid" style="width: 200px; height: 56px;">
+            </div>            
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fas fa-info-circle"></i> Acerca</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+            <!-- Controles a la derecha -->
+            <div class="d-flex align-items-center">
+                <button id="theme-toggle" class="btn btn-secondary me-2"><i class="fas fa-sun"></i></button>
+                <div class="dropdown">
+                    <button id="profile-btn" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><p class="dropdown-item text-muted">{{ email }}</p></li>
+                        <li><a class="dropdown-item" href="#profile"><i class="fas fa-user"></i> Ver perfil</a></li>
+                        <li><a class="dropdown-item" href="#settings"><i class="fas fa-cogs"></i> Configuración</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar bg-dark">
+        <ul class="navbar-nav flex-column">
+             <!-- <div class="toggle-btn" onclick="toggleSideba()">
+                <i class="fas fa-bars"></i>-->
+            </div>
+            <div class="menu" style="margin-top: 40px">
+                <li class="nav-item">
+                    <a class="nav-link active" onclick="openTab('tab1', this)">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Estadísticas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab('tab2', this)">
+                        <i class="fas fa-home"></i>
+                        <span>Becados</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab('tab3', this)">
+                        <i class="fas fa-calendar"></i>
+                        <span>Calendario</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab('tab4', this)">
+                        <i class="fas fa-book"></i>
+                        <span>Contabilidad</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab('tab5', this)">
+                        <i class="fas fa-list"></i>
+                        <span>Formularios</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="webdomotycort()">
+                        <i class="fas fa-globe"></i>
+                        <span>Nosotros</span>
+                    </a>
+                </li>
+            </div>
+
+        </ul>
+    </nav>
+
+    <main class="main">
+        <div id="tab1" class="tabcontent active">
+            <div class="container-fluid">            
+                <!-- Gráficas -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Gráfica de Ambiente</h3>
+                                <div class="grafica-container">
+                                    <canvas id="grafica-amb"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Gráfico de Pagos</h3>
+                                <div class="grafica-container">
+                                    <canvas id="grafico-pagos"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Información -->
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Información General</h3>
+                                <p>Contenido específico para la sección.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Información Detallada</h3>
+                                <p>Contenido específico para la sección.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>            
+        
+
+        <div id="tab2" class="tabcontent">
+            <div class="container-fluid socios">
+            
+                <!-- Texto corto, barra de búsqueda y botones en una sola línea -->
+                <div class="row align-items-center mb-3">
+                    <!-- Texto a la izquierda ocupando el 50% -->
+                    <div class="col-6">
+                        <p class="lead mb-0">Lista actualizada de socios del club</p>
+                    </div>
+                    <!-- Botones a la derecha ocupando el 50% -->
+                    <div class="col-6 text-end">
+                        <button class="btn btn-outline-danger me-2" title="Exportar PDF">
+                            <i class="fa fa-file-pdf"></i> Exportar PDF
+                        </button>
+                        <button class="btn btn-outline-success" title="Exportar Excel">
+                            <i class="fa fa-file-excel"></i> Exportar Excel
+                        </button>
+                    </div>
+                </div>
+
+
+            
+                <!-- Tabla de socios -->
+                <div class="table-responsive panel">
+                    <table id="example" class="display table table-striped table-hover tabla">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th><input type="checkbox" id="select-all" /></th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Celular</th>
+                                <th>Celular Emergencia</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for becado in becados %}
+                            <tr>
+                                <td><input type="checkbox" class="select-row" data-id="{{ becado.id }}" /></td>
+                                <td>{{ becado.nombres }}</td>
+                                <td>{{ becado.apellidos }}</td>
+                                <td class="tab-link"><a href="mailto:{{ becado.correo }}">{{ becado.correo }}</a></td>
+                                <td class="tab-link"><a href="https://wa.me/{{ becado.celular1 }}">{{ becado.celular1 }}</a></td>
+                                <td class="tab-link"><a href="https://wa.me/{{ becado.celular2 }}">{{ becado.celular2 }}</a></td>
+                                <td>{{ becado.estado }}</td>
+                                <td>
+                                    <div class="action-container">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="toggleEditForm({{ becado.id }})" title="Editar">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="edit-form-{{ becado.id }}" class="edit-form" style="display: none;">
+                                <td colspan="8">
+                                    <form method="POST" action="{{ url_for('update_becado', becado_id=becado.id) }}">
+                                        <div class="form-group">
+                                            <label for="nombres">Nombres</label>
+                                            <input type="text" class="form-control" name="nombres" value="{{ becado.nombres }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="apellidos">Apellidos</label>
+                                            <input type="text" class="form-control" name="apellidos" value="{{ becado.apellidos }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="correo">Correo</label>
+                                            <input type="email" class="form-control" name="correo" value="{{ becado.correo }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="celular1">Celular 1</label>
+                                            <input type="text" class="form-control" name="celular1" value="{{ becado.celular1 }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="celular2">Celular 2</label>
+                                            <input type="text" class="form-control" name="celular2" value="{{ becado.celular2 }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="estado">Estado</label>
+                                            <select class="form-control" name="estado" required>
+                                                <option value="aspirante" {% if becado.estado == 'aspirante' %}selected{% endif %}>Aspirante</option>
+                                                <option value="becado" {% if becado.estado == 'becado' %}selected{% endif %}>Becado</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                        <button type="button" class="btn btn-secondary" onclick="toggleEditForm({{ becado.id }})">Cancelar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>            
+
+
+        <div id="tab3" class="tabcontent">
+            <!-- Contenedor de Tareas y Botón -->
+            <div id="external-events" class="container mt-4">
+                <p><strong>Tareas Disponibles</strong></p>
+                <div class="row" id="task-container">
+                    <!-- Aquí irán los botones generados por el for -->
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="01:00" data-color="#ff9f89" draggable="true">Tarea 1</div>
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="02:30" data-color="#ffbf00" draggable="true">Tarea 2</div>
+                    <div class='col-12 col-sm-6 col-md-4 col-lg-2 fc-event' data-duration="00:45" data-color="#008000" draggable="true">Tarea 3</div>
+                    <!-- Se pueden agregar más botones de tarea -->
+                </div>
+                <div class="text-center mt-3">
+                    <button id="add-event" class="btn btn-primary" onclick="addEvent()">Agregar Tarea</button>
+                </div>
+            </div>
+        
+            <!-- Contenedor de los calendarios -->
+            <div id="calendars" class="d-flex flex-wrap mt-4">
+                <div id="calendar1" class="calendar-item"></div>
+                <div id="calendar2" class="calendar-item"></div>
+                <div id="calendar3" class="calendar-item"></div>
+            </div>
+        </div>
+
+
+        <div id="tab4" class="tabcontent">
+
+        </div>
+        <div id="tab5" class="tabcontent">
+            <div class="container-fluid formularios">
+                <div class="row">
+                    <!-- Sidebar with form elements -->
+                    <div class="col-md-4">
+                        <h4>Opciones de Formulario</h4>
+                        <div class="list-group">
+                            <div class="list-group-item draggable-item" draggable="true" data-type="text">
+                                <i class="bi bi-fonts"></i> Texto
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="email">
+                                <i class="bi bi-envelope"></i> Correo Electrónico
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="number">
+                                <i class="bi bi-123"></i> Números
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="address">
+                                <i class="bi bi-house"></i> Dirección
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="location">
+                                <i class="bi bi-geo-alt"></i> Ciudad, Departamento
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="date">
+                                <i class="bi bi-calendar"></i> Fecha
+                            </div>
+                            <div class="list-group-item draggable-item" draggable="true" data-type="textarea">
+                                <i class="bi bi-textarea-t"></i> Área de Texto
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Droppable area -->
+                    <div class="col-md-8">
+                        <h4>Formulario Creado</h4>
+                        <div id="form-builder" class="form-builder">
+                            <p class="placeholder">Arrastra y suelta los campos aquí</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalBecado" tabindex="-1" role="dialog" aria-labelledby="modalBecadoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalBecadoLabel">Detalles del Becado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Nombres:</strong> <span id="modalNombres"></span></p>
+                    <p><strong>Apellidos:</strong> <span id="modalApellidos"></span></p>
+                    <p><strong>Tipo de Documento:</strong> <span id="modalTipoDocumento"></span></p>
+                    <p><strong>Número de Documento:</strong> <span id="modalNumeroDocumento"></span></p>
+                    <p><strong>Dirección:</strong> <span id="modalDireccion"></span></p>
+                    <p><strong>Municipio:</strong> <span id="modalMunicipio"></span></p>
+                    <p><strong>Fecha de Nacimiento:</strong> <span id="modalFechaNacimiento"></span></p>
+                    <p><strong>Celular 1:</strong> <span id="modalCelular1"></span></p>
+                    <p><strong>Celular 2:</strong> <span id="modalCelular2"></span></p>
+                    <p><strong>Correo:</strong> <span id="modalCorreo"></span></p>
+                    <p><strong>Edad:</strong> <span id="modalEdad"></span></p>
+                    <p><strong>Título de Grado:</strong> <span id="modalTituloGrado"></span></p>
+                    <p><strong>Pruebas Saber:</strong> <span id="modalPruebasSaber"></span></p>
+                    <p><strong>Estrato Social:</strong> <span id="modalEstratoSocial"></span></p>
+                    <p><strong>Club:</strong> <span id="modalClub"></span></p>
+                    <p><strong>Universidad Postuladora:</strong> <span id="modalUniversidadPostuladora"></span></p>
+                    <p><strong>Número de Matrícula/PIN:</strong> <span id="modalNumeroMatriculaPin"></span></p>
+                    <p><strong>Porcentaje U Completada:</strong> <span id="modalPorcentajeUCompletada"></span></p>
+                    <p><strong>Rotario Padrino:</strong> <span id="modalRotarioPadrino"></span></p>
+                    <p><strong>Estado:</strong> <span id="modalEstado"></span></p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Función para manejar el cambio de tema
+        const themeToggleButton = document.getElementById('theme-toggle');
+        themeToggleButton.addEventListener('click', function() {
+            // Cambiar el tema
+            document.body.classList.toggle('dark-theme'); // Alterna entre fondo negro y blanco
+
+            // Cambiar el icono del botón según el tema
+            if (document.body.classList.contains('dark-theme')) {
+                themeToggleButton.innerHTML = '<i class="fas fa-moon"></i>'; // Cambiar a luna
+            } else {
+                themeToggleButton.innerHTML = '<i class="fas fa-sun"></i>'; // Cambiar a sol
+            }
+        });
+
+        function openTab(tabName, element) {
+            var i, tabcontent, sidebarLinks;
+            
+            // Ocultar todo el contenido de las pestañas
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+        
+            // Eliminar la clase "active" de todos los enlaces de la barra lateral
+            sidebarLinks = document.getElementsByClassName("nav-link");
+            for (i = 0; i < sidebarLinks.length; i++) {
+                sidebarLinks[i].classList.remove("active");
+            }
+        
+            // Mostrar la pestaña actual y agregar la clase "active" al enlace que abrió la pestaña
+            document.getElementById(tabName).classList.add("active");
+            element.classList.add("active");
+        }
+        
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+
+        $('#example').DataTable({
+            "paging": true,        // Habilitar la paginación
+            "searching": true,     // Habilitar la búsqueda
+            "ordering": true,      // Habilitar la ordenación de columnas
+            "info": true,          // Mostrar información sobre la tabla
+            "lengthMenu": [[5, 10, 15], [5, 10, 15]], // Define las opciones del menú de longitud
+            "language": {
+                "decimal": ",",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ entradas",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+
+            
+        });        
+        
+    </script>
+</body>
+</html>

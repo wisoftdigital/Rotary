@@ -1,0 +1,198 @@
+/* FONTS AWESOME */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+
+/* Estilo para el tema oscuro en el body */
+body.dark-theme {
+    background-color: black; /* Fondo negro solo en el body */
+    color: white; /* Texto blanco en el body */
+}
+
+/* Estilo para el header fijo */
+header {
+    height: 60px;
+    width: 100%;
+    position: fixed; /* Fija el header en la parte superior */
+    top: 0; /* Alínea el header en la parte superior */
+    left: 0; /* Asegura que el header esté alineado a la izquierda */
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    background-color: #1c1c1c; /* Fondo del header para que se vea bien */
+}
+
+/* Margen superior y izquierdo para el body */
+body {
+    margin-top: 60px; /* Añade margen superior igual a la altura del header */
+    margin-left: 60px; /* Añade margen izquierdo igual a la anchura del sidebar */
+    position: relative; /* Establecer posición relativa para que los elementos absolutos se alineen con el body */
+    height: calc(100vh - 60px); /* Altura del body menos la altura del header */
+    width: calc(100vw - 60px); /* Ancho del body menos la anchura del sidebar */
+}
+
+/* Sidebar estilizado */
+.sidebar {
+    height: 100vh; /* Altura completa de la ventana */
+    width: 60px; /* Ancho base del sidebar */
+    position: fixed; /* Fija el sidebar */
+    top: 60px; /* Debajo del header */
+    left: 0; /* Alinea el sidebar a la izquierda */
+    transition: width 0.3s; /* Transición para el ancho */
+    z-index: 1000; /* Asegura que el sidebar esté por encima de otros elementos */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Mantener los elementos en la parte superior */
+}
+
+/* Cuando el sidebar se expande */
+.sidebar:hover {
+    width: 200px; /* Ancho del sidebar expandido */
+}
+
+/* Estilo de los íconos y botones */
+.nav-link {
+    border-radius: 10px; /* Borde redondeado */
+    margin: 5px 5px; /* Espaciado entre los botones */
+    padding: 10px 15px; /* Espaciado interno */
+    display: flex; /* Usar flexbox para alinear íconos y texto */
+    align-items: center; /* Centrar verticalmente */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    color: white; /* Color del texto por defecto */
+    
+}
+
+/* Cambia el tamaño de los íconos */
+.nav-link i {
+    font-size: 20px; /* Tamaño del ícono */
+    margin-right: 10px; /* Espaciado entre el ícono y el texto */
+}
+
+/* Color de fondo cuando el mouse está sobre el enlace */
+.nav-link:hover {
+    background-color: #999999; /* Cambia a un color más claro al pasar el cursor */
+}
+
+/* Ítem activo */
+.nav-link.active {
+    background-color: #007bff; /* Color de fondo para el botón activo */
+    color: white; /* Color de texto para el botón activo */
+}
+
+/* Cambia el color de fondo y el texto del botón activo al pasar el cursor */
+.nav-link.active:hover {
+    background-color: #0056b3; /* Un color diferente cuando el enlace activo es hover */
+}
+
+/* Ocultar el texto al inicio */
+.sidebar .nav-link span {
+    display: inline-block; /* Cambiar a inline-block para permitir controlar el tamaño */
+    width: 0; /* Inicialmente, el ancho del texto es 0 */
+    overflow: hidden; /* Ocultar el desbordamiento */
+    transition: width 0.3s ease, opacity 0.3s ease; /* Transición suave para el ancho y opacidad */
+    opacity: 0; /* Inicialmente, la opacidad es 0 */
+    font-size: 16px; /* Tamaño del texto */
+    font-weight: 500; /* Grosor del texto */
+    color: white; /* Color del texto */
+}
+
+/* Mostrar el texto cuando el sidebar se expande */
+.sidebar:hover .nav-link span {
+    width: 120px; /* Ajusta este valor según sea necesario */
+    opacity: 1; /* Mostrar el texto */
+}
+
+/* Asegura que el sidebar tenga un margen interno */
+.sidebar .nav-item {
+    margin: 0; /* Asegurar que no haya márgenes adicionales que empujen los botones fuera */
+}
+
+/* Se asegura que el padding no sobresalga */
+.sidebar .nav-link {
+    box-sizing: border-box; /* Para incluir el padding en el tamaño total */
+}
+
+
+
+.form-builder {
+    min-height: 300px;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    position: relative;
+}
+.draggable-item {
+    cursor: grab;
+    margin-bottom: 10px;
+    user-select: none;
+}
+.form-builder .placeholder {
+    color: #999;
+    text-align: center;
+    line-height: 300px;
+}
+.field-container {
+    position: relative;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+.field-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.field-controls input {
+    flex: 1;
+    margin-right: 10px;
+}
+.field-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.remove-field {
+    background: red;
+    color: white;
+    padding: 2px 6px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.move-up, .move-down {
+    background-color: #007bff;
+    color: white;
+    padding: 2px 6px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+
+
+/* Estilo del botón colapsador (visible solo en móviles) */
+@media (max-width: 991px) {
+    .navbar-toggler {
+        display: block;
+    }
+
+    .sidebar.show {
+        display: block;
+    }
+}
+
+
+.tabcontent {
+    display: none;
+    position: absolute; /* Cambiar a absolute para ocupar todo el espacio */
+    top: 0; /* Alinear al top */
+    left: 0; /* Alinear a la izquierda */
+    width: 100%; /* Usar 100% del ancho del body */
+    height: 100%; /* Usar 100% de la altura del body */
+    border-radius: 20px;
+    border: 4px solid #999999;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: transparent; /* Mantiene la transparencia */
+    overflow: hidden; /* Evita que el contenido sobresalga */
+    box-shadow: 0 0 0 100vmax #1c1c1c; /* Simula el fondo gris oscuro en las esquinas */
+}
+
+.tabcontent.active {
+    display: block; /* Mostrar el contenido activo */
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cuenta de Cobro</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+      /* Estilos Globales */
+      * {
+        box-sizing: border-box;
+      }
+      
+      html {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.2;
+        font-size: 12px;
+        text-size-adjust: 100%;
+        color: #333;
+      }
+      
+      .PDF {
+        margin: 0;
+        padding: 0;
+      }
+      
+      .cs-invoice {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+      
+      .cs-invoice_head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .cs-invoice_table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      .cs-invoice_table td {
+        vertical-align: top;
+      }
+      
+      .cs-invoice_left {
+        text-align: left;
+      }
+
+      .large-text {
+        font-size: 20px; /* Ajusta el tamaño según tus necesidades */
+      }   
+      
+      .cs-invoice_right {
+        text-align: right;
+      }
+      
+      .cs-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        font-size: 10px;
+        background-color: #fff;
+      }
+      
+      .cs-table th, .cs-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .cs-table th {
+        background-color: #e6e6e6;
+        font-weight: 600;
+        color: #555;
+      }
+      
+      .cs-table tbody tr:hover {
+        background-color: #f2f2f2;
+      }
+      
+      .cs-footer {
+        margin-top: 10px;
+
+        border-top: 1px solid #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      
+      .cs-total {
+        width: 50%;
+        text-align: right;
+      }
+      
+      .cs-table-total {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      
+      .cs-table-total td {
+        padding: 10px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        color: #666;
+      }
+      
+      .cs-table-total tr:last-child td {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        background-color: #e6e6e6;
+      }
+      
+      .cs-table-total td:first-child {
+        text-align: left;
+        font-weight: 600;
+      }
+      
+      .cs-company-info {
+        margin-top: 20px;
+        padding: 10px;
+        border-top: 1px solid #ccc;
+        color: #666;
+      }
+      
+      .cs-invoice_info {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      /* Añade estos estilos al CSS existente */
+
+      /* Ajustes para la tabla dentro de .cs-footer */
+      .cs-footer .cs-table {
+        width: 45%; /* Para que no supere el ancho de .cs-total */
+        border: 2px solid #666; /* Borde gris oscuro */
+        border-collapse: collapse;
+      }
+
+      .cs-footer .cs-table th,
+      .cs-footer .cs-table td {
+        padding: 2px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .cs-footer .cs-table th {
+        background-color: #e0e0e0;
+        color: #333;
+      }
+
+      .cs-footer .cs-table tbody tr:hover {
+        background-color: #f2f2f2;
+      }
+
+      /* Asegurar que .cs-total y la tabla se alineen correctamente */
+      .cs-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      /* Media Queries para Diseño Responsivo */
+      @media (max-width: 600px) {
+        .cs-invoice_head {
+          flex-direction: column;
+          text-align: center;
+        }
+        .cs-invoice_left, .cs-invoice_right {
+          margin-bottom: 10px;
+        }
+      }
+      @media print {
+        /* Ocultar botones en impresión */
+        button {
+          display: none;
+        }
+
+        /* Ajustar márgenes y tamaño del contenido para impresión */
+        body, .PDF {
+          margin: 0;
+          padding: 0;
+        }
+
+        /* Aplicar colores correctos en impresión */
+        thead th {
+          -webkit-print-color-adjust: exact;
+          color-adjust: exact;
+          background-color: #e6e6e6 !important;
+        }
+
+        /* Evitar que el contenido se corte en páginas */
+        .cs-invoice {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+    <script>
+      function printInvoice() {
+        window.print();
+      }
+
+      function generatePDF() {
+        const invoice = document.querySelector('.PDF');  // Selecciona el contenido que quieres convertir a PDF
+        
+        // Configuraciones adicionales para html2pdf
+        const options = {
+          margin: 30,
+          filename: 'invoice.pdf',
+          html2canvas: { scale: 2},
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(invoice).set(options).save();  // Convierte y descarga el PDF
+      }
+  </script>
+
+<body>
+  <button onclick="printInvoice()">Imprimir Factura</button>
+  <button onclick="generatePDF()">Descargar PDF</button>
+<div class="PDF">
+
+<div class="cs-invoice">
+  <div class="cs-invoice_head">
+    <table class="cs-invoice_table">
+      <tr>
+        <td class="cs-invoice_left">
+          <p class="cs-invoice_info large-text"><strong>Edificio:</strong> Giraupa 3 y 4 PH</p>
+          <p class="cs-invoice_info large-text"><strong>NIT:</strong> 811046526</p>
+          <p class="cs-invoice_info"><strong>Número de Cuenta de Cobro:</strong> #123456</p>
+          <p class="cs-invoice_info"><strong>Código:</strong> ABC123</p>
+        </td>
+        <td class="cs-invoice_right">
+          <img src="img/logo.svg" alt="Logo" style="width: 200px;">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="cs-invoice_head">
+    <table class="cs-invoice_table">
+        <tr>
+            <td class="cs-invoice_left">
+                <p><strong>Invoice To:</strong></p>
+                <p>Jennifer Richards<br>365 Bloor Street East<br>Toronto, Ontario, Canada</p>
+            </td>
+            <td class="cs-invoice_right">
+                <p><strong>Pay To:</strong></p>
+                <p>Biman Airlines<br>237 Roanoke Road<br>North York, Ontario, Canada</p>
+            </td>
+        </tr>
+    </table>
+  </div>
+
+<table class="cs-table">
+  <thead>
+      <tr>
+          <th>Fecha de Cobro</th>
+          <th>Fecha de Vencimiento</th>
+          <th>Formato de Pago</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>05.01.2022</td>
+          <td>05.01.2022</td>
+          <td>Crédito/Debito/Transferencia</td>
+      </tr>
+  </tbody>
+</table>
+
+<table class="cs-table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>App Development</td>
+            <td>Mobile & iOS Application Development</td>
+            <td>2</td>
+            <td>$460</td>
+            <td>$920</td>
+        </tr>
+        <tr>
+            <td>Ui/UX Design</td>
+            <td>Product & Mobile App Design</td>
+            <td>1</td>
+            <td>$220</td>
+            <td>$220</td>
+        </tr>
+        <tr>
+            <td>Web Design</td>
+            <td>Web Design & Development</td>
+            <td>2</td>
+            <td>$120</td>
+            <td>$240</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="cs-footer">
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th>Pendientes</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ADMON Y/O PARQ</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Retroactivos</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Múltas y Sanciones</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Intereses</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Cobros Jurídicos</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+      </table>
+    <div class="cs-total">
+      <table class="cs-table-total">
+          <tr>
+              <td><strong>Subtotal:</strong></td>
+              <td>$1140</td>
+          </tr>
+          <tr>
+              <td><strong>Pendientes:</strong></td>
+              <td>-$20</td>
+          </tr>
+          <tr>
+              <td><strong>Total:</strong></td>
+              <td><strong>$1160</strong></td>
+          </tr>
+      </table>
+  </div>
+</div>
+
+<div class="cs-company-info">
+  <p><strong>Company Description:</strong> Biman Airlines is dedicated to providing exceptional travel experiences, offering top-notch services and a commitment to safety and customer satisfaction. We value our clients and aim to exceed their expectations with every flight.</p>
+</div>
+
+</div>
+
+</body>
+
+<!-- Incluye la librería html2pdf -->
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+
+</html>

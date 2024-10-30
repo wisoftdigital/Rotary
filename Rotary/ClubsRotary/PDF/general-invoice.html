@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>General Invoice</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+      /* Global Styles */
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.5;
+        text-size-adjust: 100%;
+      }
+
+      .cs-invoice {
+        max-width: 800px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .cs-invoice_head {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px; /* Espacio entre secciones */
+      }
+
+      .cs-invoice_table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .cs-invoice_table td {
+        width: 50%;
+        vertical-align: top;
+      }
+
+      .cs-invoice_left {
+        text-align: left; /* Alineación a la izquierda (opcional) */
+      }
+      
+      .cs-invoice_right {
+          text-align: right; /* Alineación a la derecha */
+      }
+
+      .cs-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0;
+        font-size: 14px;
+        background-color: #f9f9f9;
+      }
+
+      .cs-table th, .cs-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .cs-table th {
+        background-color: #f3f3f3;
+        font-weight: 600;
+        color: #555;
+      }
+
+      .cs-table tbody tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      .cs-table td {
+        color: #666;
+      }
+
+      .cs-table td:last-child {
+        text-align: right;
+      }
+
+      .cs-footer {
+        margin-top: 20px; /* Espacio superior */
+        padding-top: 20px;
+        padding-right: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+
+      .cs-info {
+        width: 50%; /* Ocupa la mitad del contenedor */
+        padding-right: 20px;
+      }
+
+      .cs-total {
+        width: 50%; /* Ocupa la otra mitad del contenedor */
+        text-align: right;
+      }
+
+      .cs-table-total {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px; /* Ajusta el espacio superior */
+        font-size: 14px;
+        background-color: #f9f9f9;
+      }
+
+      .cs-table-total td {
+        padding: 10px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        color: #666;
+      }
+
+      .cs-table-total tr:last-child td {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        background-color: #f3f3f3;
+      }
+
+      .cs-table-total td:first-child {
+        text-align: left;
+        font-weight: 600;
+      }
+
+      /* Nuevo estilo para el div de información de la empresa */
+      .cs-company-info {
+        margin-top: 30px;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        font-size: 14px;
+        color: #666;
+      }
+
+      /* Media Queries for Responsive Design */
+      @media (max-width: 600px) {
+        .cs-invoice_head {
+          flex-direction: column;
+          text-align: center;
+        }
+        .cs-invoice_left, .cs-invoice_right {
+          margin-bottom: 10px;
+        }
+      }
+
+    </style>
+</head>
+<body>
+  <div class="cs-invoice">
+    <div class="cs-invoice_head clearfix">
+      <table class="cs-invoice_table">
+        <tr>
+          <td class="cs-invoice_left">
+            <p><strong>Invoice No:</strong> #SM75692</p>
+            <p><strong>Date:</strong> 05.01.2022</p>
+          </td>
+          <td class="cs-invoice_right">
+            <img src="img/logo.svg" alt="Logo" style="width: 100px;">
+          </td>
+        </tr>
+      </table>
+    </div>
+  
+    <div class="cs-invoice_head clearfix">
+      <table class="cs-invoice_table">
+          <tr>
+              <td class="cs-invoice_left"> <!-- Agregar la clase aquí -->
+                  <p><strong>Invoice To:</strong></p>
+                  <p>Jennifer Richards<br>365 Bloor Street East<br>Toronto, Ontario, Canada</p>
+              </td>
+              <td class="cs-invoice_right"> <!-- Ya tienes esta clase -->
+                  <p><strong>Pay To:</strong></p>
+                  <p>Biman Airlines<br>237 Roanoke Road<br>North York, Ontario, Canada</p>
+              </td>
+          </tr>
+      </table>
+  </div>
+   
+
+        <table class="cs-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>App Development</td>
+                    <td>Mobile & iOS Application Development</td>
+                    <td>2</td>
+                    <td>$460</td>
+                    <td>$920</td>
+                </tr>
+                <tr>
+                    <td>Ui/UX Design</td>
+                    <td>Product & Mobile App Design</td>
+                    <td>1</td>
+                    <td>$220</td>
+                    <td>$220</td>
+                </tr>
+                <tr>
+                    <td>Web Design</td>
+                    <td>Web Design & Development</td>
+                    <td>2</td>
+                    <td>$120</td>
+                    <td>$240</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="cs-footer">
+            <p><strong>Additional Information:</strong> At check-in you may need to present the credit card used for payment.</p>
+            <div class="cs-total">
+              <table class="cs-table-total">
+                  <tr>
+                      <td><strong>Subtotal:</strong></td>
+                      <td>$1140</td>
+                  </tr>
+                  <tr>
+                      <td><strong>Tax:</strong></td>
+                      <td>-$20</td>
+                  </tr>
+                  <tr>
+                      <td><strong>Total:</strong></td>
+                      <td><strong>$1160</strong></td>
+                  </tr>
+              </table>
+          </div>
+        </div>
+
+        <!-- Nuevo div de información de la empresa -->
+        <div class="cs-company-info">
+          <p><strong>Company Description:</strong> Biman Airlines is dedicated to providing exceptional travel experiences, offering top-notch services and a commitment to safety and customer satisfaction. We strive to connect people and cultures around the globe.</p>
+        </div>
+    </div>
+</body>
+</html>

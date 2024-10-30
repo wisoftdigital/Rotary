@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inscripción - Becas 2025</title>
+    <link rel="icon" href="https://i0.wp.com/www.becasdelcentenariorotario.org/wp-content/uploads/2024/06/cropped-escudo.png?resize=150%2C150&ssl=1" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            margin: 0;
+            padding: 0 24px;
+            background-color: #f0f0f0; /* Cambié el color de fondo a un gris claro */
+            background-image: radial-gradient(at 88% 0%, hsla(270, 50%, 70%, 1) 0px, transparent 50%),
+                              radial-gradient(at 63% 46%, hsla(220, 70%, 70%, 1) 0px, transparent 50%),
+                              radial-gradient(at 95% 53%, hsla(60, 100%, 75%, 1) 0px, transparent 50%),
+                              radial-gradient(at 79% 83%, hsla(240, 50%, 70%, 1) 0px, transparent 50%),
+                              radial-gradient(at 74% 93%, hsla(30, 100%, 65%, 1) 0px, transparent 50%),
+                              radial-gradient(at 52% 13%, hsla(240, 70%, 70%, 1) 0px, transparent 50%),
+                              radial-gradient(at 30% 80%, hsla(60, 100%, 75%, 1) 0px, transparent 50%);
+            color: #333; /* Cambié el color del texto a gris oscuro */
+            font-family: 'Ubuntu';
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px; /* Aumenta el espacio abajo del contenedor */
+        }        
+        .form-container img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100px;
+        }
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container mt-5">
+        <!-- Logo -->
+        <img src="https://i0.wp.com/www.becasdelcentenariorotario.org/wp-content/uploads/2018/05/Logo_Becas_del_Centenario.png?w=1419&ssl=1" 
+            alt="Logo Corporación Becas del Centenario Rotario" 
+            class="img-fluid mb-4" 
+            style="max-width: 500px;">
+
+        <h2 class="text-center mb-4">Inscripción Becados 2025-1</h2>
+
+        <form action="/inscripcion" method="POST" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nombres" class="form-label">Nombres</label>
+                    <input type="text" name="nombres" class="form-control" id="nombres" placeholder="Escribe tus nombres" required>
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input type="text" name="apellidos" class="form-control" id="apellidos" placeholder="Escribe tus apellidos" required>
+                </div>
+            </div>      
+
+            <div class="mb-3">
+                <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" name="fecha-nacimiento" class="form-control" id="fecha-nacimiento" required>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="tipo-documento" class="form-label">Tipo de Documento</label>
+                    <select name="tipo-documento" class="form-select" id="tipo-documento" required>
+                        <option value="" selected disabled>Selecciona tipo de documento</option>
+                        <option value="cc">Cédula de ciudadanía</option>
+                        <option value="ti">Tarjeta de identidad</option>
+                        <option value="pasaporte">Pasaporte</option>
+                        <option value="ce">Cédula de extranjería</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+            
+                <div class="col-md-8">
+                    <label for="numero-documento" class="form-label">Número de Documento</label>
+                    <input type="text" name="numero-documento" class="form-control" id="numero-documento" placeholder="Número de documento" required>
+                </div>
+            </div>            
+
+            <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección de Residencia</label>
+                <input type="text" name="direccion" class="form-control" id="direccion" placeholder="Escribe tu dirección" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="municipio" class="form-label">Municipio y Departamento</label>
+                <input type="text" name="municipio" class="form-control" id="municipio" placeholder="Municipio, Departamento" required>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="celular1" class="form-label">Celular 1</label>
+                    <input type="tel" name="celular1" class="form-control" id="celular1" placeholder="Número de celular" required>
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="celular2" class="form-label">Celular 2 (Opcional)</label>
+                    <input type="tel" name="celular2" class="form-control" id="celular2" placeholder="Número de celular opcional">
+                </div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico</label>
+                <input type="email" name="correo" class="form-control" id="correo" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="titulo_grado" class="form-label">Subir Título de Grado del Colegio</label>
+                <input type="file" name="titulo_grado" class="form-control" id="titulo_grado" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pruebas_saber" class="form-label">Subir Pruebas Saber</label>
+                <input type="file" name="pruebas_saber" class="form-control" id="pruebas_saber" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="estrato_social" class="form-label">Subir Estrato Social</label>
+                <input type="file" name="estrato_social" class="form-control" id="estrato_social" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="universidad" class="form-label">Universidad a la que se Postula</label>
+                <input type="text" name="universidad" class="form-control" id="universidad" placeholder="Escribe la universidad" required>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="tipo_mat_pin" class="form-label">Matrícula o PIN</label>
+                    <select name="tipo_mat_pin" class="form-select" id="tipo_mat_pin" required>
+                        <option value="" selected disabled>Selecciona tipo</option>
+                        <option value="matricula">Matrícula</option>
+                        <option value="pin">PIN de compra</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-8">
+                    <label for="numero_mat_pin" class="form-label">Número de Matrícula o PIN de Compra</label>
+                    <input type="text" name="numero_mat_pin" class="form-control" id="numero_mat_pin" placeholder="Número de matrícula o pin" required>
+                </div>
+            </div>            
+            <div class="mb-3">
+                <label for="club" class="form-label">Club Patrocinador</label>
+                <input type="text" name="club" class="form-control" id="club" placeholder="Escribe el club patrocinador" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="rotario" class="form-label">Rotario Padrino (Postulador)</label>
+                <input type="text" name="rotario" class="form-control" id="rotario" placeholder="Escribe el nombre del rotario" required>
+            </div>
+
+            <input type="hidden" name="estado" value="aspirante">
+            <button type="submit" class="btn btn-primary w-100">Postularse</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de información -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="infoModalLabel">Información Necesaria</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Para completar este formulario, necesitas la siguiente información:</p>
+          <ul>
+            <li>Nombres</li>
+            <li>Apellidos</li>
+            <li>Fecha de nacimiento</li>
+            <li>Documento de identidad (Tipo y número)</li>
+            <li>Dirección de residencia</li>
+            <li>Municipio y Departamento</li>
+            <li>Celular 1</li>
+            <li>Celular 2 (Opcional)</li>
+            <li>Correo electrónico</li>
+            <li>Subir título de grado del colegio</li>
+            <li>Pruebas Saber</li>
+            <li>Estrato social (Sisben o Servicios públicos)</li>
+            <li>Universidad a la que se postula</li>
+            <li>Número de matrícula o pin de compra</li>
+            <li>Club patrocinador</li>
+            <li>Rotario padrino (Postulador)</li>
+        </ul>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row mb-3">
+                <div class="col-md-7">
+                    <label for="numero-documento-modal" class="form-label">Número de Documento</label>
+                    <input type="text" name="numero-documento-modal" class="form-control" id="numero-documento-modal" placeholder="Número de documento" required>
+                </div>
+                <div class="col-md-5 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary" id="buscar-btn">Buscar Postulación</button>
+                </div>
+            </div>
+        </div>               
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mostrar el modal cuando la página cargue
+    window.onload = function() {
+        var infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+        infoModal.show();
+    }
+    document.getElementById('buscar-btn').onclick = function() {
+        const numeroDocumento = document.getElementById('numero-documento-modal').value;
+    
+        fetch(`/verificar_postulacion?numero_documento=${numeroDocumento}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.existe) {
+                    // Rellenar el formulario con la información obtenida
+                    document.getElementById('nombres').value = data.nombres;
+                    document.getElementById('apellidos').value = data.apellidos;
+                    document.getElementById('fecha-nacimiento').value = data.fecha_nacimiento;
+                    document.getElementById('tipo-documento').value = data.tipo_documento;
+                    document.getElementById('numero-documento').value = data.numero_documento;
+                    document.getElementById('direccion').value = data.direccion;
+                    document.getElementById('municipio').value = data.municipio;
+                    document.getElementById('celular1').value = data.celular1;
+                    document.getElementById('celular2').value = data.celular2;
+                    document.getElementById('correo').value = data.correo;
+                    
+                    // Cierra el modal
+                    var infoModal = bootstrap.Modal.getInstance(document.getElementById('infoModal'));
+                    infoModal.hide();
+                } else {
+                    alert("No hay postulaciones registradas para este número de documento. Por favor, completa el formulario.");
+                    
+                    // Cierra el modal y muestra el formulario
+                    var infoModal = bootstrap.Modal.getInstance(document.getElementById('infoModal'));
+                    infoModal.hide();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    
+  </script>
+</body>
+</html>

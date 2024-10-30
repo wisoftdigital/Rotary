@@ -1,0 +1,23 @@
+{
+  "name": "flask-npm-project-",
+  "version": "1.0.0",
+  "description": "Proyecto usando Flask para el backend y NPM para el frontend",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -o",
+    "build": "echo 'No hay nada para compilar en este proyecto por ahora'",
+    "dev": "http-server ./static"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
+    "datatables.net": "^2.1.8",
+    "datatables.net-dt": "^2.1.8",
+    "typeface-poppins": "^1.1.13"
+  },
+  "author": "Yomar Echavarria C",
+  "license": "MIT"
+}

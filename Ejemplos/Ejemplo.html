@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Único Mejorado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="openModal">Abrir Modal</button>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"> <!-- Cambiar modal-heder a modal-header -->
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Configuración Avanzada</h2>
+            </div>            
+            <div class="modal-body">
+                <p>texto...</p>
+                <form id="modalForm">
+                    <div class="input-group">
+                        <div class="input-column">
+                            <label for="inputText">Texto:</label>
+                            <input type="text" id="inputText" name="inputText">
+                        </div>
+                        <div class="input-column">
+                            <label for="inputNumber">Número:</label>
+                            <input type="number" id="inputNumber" name="inputNumber">
+                        </div>
+                    </div>
+    
+                    <div class="input-group">
+                        <div class="input-column">
+                            <label for="inputEmail">Email:</label>
+                            <input type="email" id="inputEmail" name="inputEmail">
+                        </div>
+                        <div class="input-column">
+                            <label for="inputCheckbox">Activar:</label>
+                            <input type="checkbox" id="inputCheckbox" name="inputCheckbox">
+                        </div>
+                    </div>
+    
+                    <div class="input-group">
+                        <div class="input-column">
+                            <label for="inputDate">Fecha:</label>
+                            <input type="date" id="inputDate" name="inputDate">
+                        </div>
+                        <div class="input-column">
+                            <label for="inputDateTime">Fecha y Hora:</label>
+                            <input type="datetime-local" id="inputDateTime" name="inputDateTime">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="buttons">
+                            <button type="button" id="saveBtn">Guardar</button>
+                            <button type="button" id="deleteBtn">Eliminar</button>
+                            <button type="button" id="activateBtn">Activar</button>
+                            <button type="button" id="deactivateBtn">Desactivar</button>
+                        </div>
+                        <p>texto...</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+

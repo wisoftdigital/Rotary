@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* FONTS AWESOME */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+
+/* Importa la fuente Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+/* Estilos básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif; /* Utiliza la fuente Poppins */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 14px; /* Reduce el tamaño de fuente global */
+    line-height: 1.4; /* Ajusta el interlineado para que se vea proporcionado */
+}
+
+:root {
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --header-bg-color: #fff;
+    --button-bg-color: #ddd;
+    --button-active-bg-color: #aaa; /* Color para el botón activo */
+    --button-hover-bg-color: #ccc;
+    --button-border-color: #bbb;
+    --dark-background-color: #333;
+    --dark-text-color: #f0f0f0;
+}
+
+body.dark {
+    --background-color: var(--dark-background-color);
+    --text-color: var(--dark-text-color);
+    --header-bg-color: #444;
+    --button-bg-color: #555;
+    --button-hover-bg-color: #666;
+    --button-border-color: #777;
+}
+
+/* Estilos para el Header */
+.header {
+    background-color: var(--header-bg-color);
+    padding: 20px; /* Separación de los bordes */
+    border-radius: 10px; /* Borde redondeado */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px; /* Margen exterior para todo el header */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-left, .nav, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-left {
+    flex-basis: 20%;
+}
+
+.header-left .logo {
+    width: 100%;
+    height: auto;
+    max-width: 150px; /* Puedes ajustar el tamaño máximo de la imagen */
+}
+
+.nav {
+    flex-basis: 60%;
+    justify-content: center;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-list li a {
+    display: flex; /* Asegura que los íconos y el texto estén alineados */
+    align-items: center; /* Alinea verticalmente íconos y texto */
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: var(--button-bg-color);
+    transition: background-color 0.3s;
+}
+
+.nav-list li a.active {
+    background-color: var(--button-active-bg-color); /* Fondo gris para el botón activo */
+}
+
+.nav-list li a i {
+    margin-right: 8px; /* Espaciado entre el ícono y el texto */
+}
+
+.nav-list li a:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+.header-right {
+    flex-basis: 20%;
+    justify-content: flex-end;
+}
+
+.nav-controls button {
+    background-color: var(--button-bg-color);
+    border: 1px solid var(--button-border-color);
+    padding: 10px 15px;
+    margin-left: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-controls button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+#theme-toggle i, #profile-btn i {
+    font-size: 18px;
+}
+/* Agrega estilos para el menú de perfil */
+.profile-menu-container {
+    position: relative;
+}
+
+.profile-menu {
+    position: absolute;
+    right: 0;
+    top: 40px; /* Ajusta según el tamaño del botón */
+    background-color: var(--header-bg-color);
+    border: 1px solid var(--button-border-color);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
+}
+
+.profile-menu.hidden {
+    display: none; /* Oculta el menú */
+}
+
+.profile-menu h3 {
+    margin-bottom: 10px;
+}
+
+.profile-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-menu li {
+    margin: 5px 0;
+}
+
+.profile-menu a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: block; /* Para que ocupe todo el ancho */
+}
+
+.profile-menu a:hover {
+    background-color: var(--button-hover-bg-color); /* Fondo al pasar el mouse */
+}
+
+
+
+
+/* Contenedor de la estructura en horizontal */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Formulario en horizontal */
+form {
+    flex: 1 1 45%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form input[type="text"] {
+    width: 48%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+/* Efecto glossy en inputs */
+form input[type="text"]:focus {
+    border-color: #777;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+form button[type="submit"] {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+}
+
+/* Efecto glossy en botones */
+form button[type="submit"]:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Lista de resultados en horizontal */
+.results {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #4CAF50;
+    transition: all 0.3s ease;
+    width: calc(33.33% - 15px);
+}
+
+ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Paginación */
+div.pagination {
+    text-align: center;
+    margin-top: 20px;
+    flex-basis: 100%;
+}
+
+div.pagination a {
+    color: #4CAF50;
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+div.pagination a:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    ul li {
+        width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 480px) {
+    ul li {
+        width: 100%;
+    }
+
+    form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    form input[type="text"] {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <!-- Imagen a la izquierda -->
+            <div class="header-left">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+            <!-- Menú de navegación en el centro -->
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> Acerca</a></li>
+                    <li><a href="#services"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="#works"><i class="fas fa-briefcase"></i> Trabajos</a></li>
+                    <li><a href="#blog"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+            <!-- Controles a la derecha -->
+            <div class="header-right nav-controls">
+                <button id="theme-toggle"><i class="fas fa-sun"></i></button>
+                <div class="profile-menu-container">
+                    <button id="profile-btn"><i class="fas fa-user"></i></button>
+                    <div class="profile-menu hidden">
+                        <p>{{ email }}</p>
+                        <ul>
+                            <li><a href="#profile">Ver perfil</a></li>
+                            <li><a href="#settings">Configuración</a></li>
+                            <li><a href="#logout">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+    <div class="container">
+        <h1>Búsqueda de Personas</h1>
+        
+        <!-- Formulario para búsqueda y ordenamiento -->
+        <div class="search-form">
+            <form action="{{ url_for('buscar_personas') }}" method="get">
+                <div class="form-group">
+                    <input type="text" name="nombre" placeholder="Buscar por nombre" value="{{ request.args.get('nombre', '') }}">
+                    <input type="text" name="email" placeholder="Buscar por email" value="{{ request.args.get('email', '') }}">
+                    <input type="text" name="cedula" placeholder="Buscar por cédula" value="{{ request.args.get('cedula', '') }}">
+                </div>
+
+                <div class="form-group">
+                    <!-- Ordenar por -->
+                    <label for="ordenar_por">Ordenar por:</label>
+                    <select name="ordenar_por" id="ordenar_por">
+                        <option value="nombre" {% if request.args.get('ordenar_por') == 'nombre' %}selected{% endif %}>Nombre</option>
+                        <option value="email" {% if request.args.get('ordenar_por') == 'email' %}selected{% endif %}>Email</option>
+                        <option value="cedula" {% if request.args.get('ordenar_por') == 'cedula' %}selected{% endif %}>Cédula</option>
+                    </select>
+
+                    <!-- Tipo de orden -->
+                    <label for="orden">Orden:</label>
+                    <select name="orden" id="orden">
+                        <option value="asc" {% if request.args.get('orden') == 'asc' %}selected{% endif %}>Ascendente</option>
+                        <option value="desc" {% if request.args.get('orden') == 'desc' %}selected{% endif %}>Descendente</option>
+                    </select>
+                </div>
+
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <!-- Resultados de la búsqueda -->
+        <div class="results">
+            {% if personas %}
+                <h2>Resultados:</h2>
+                <ul>
+                    {% for persona in personas %}
+                        <li>{{ persona.nombre }} - {{ persona.email }} - {{ persona.cedula }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No se encontraron personas.</p>
+            {% endif %}
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('buscar_personas', page=page-1, nombre=nombre, email=email, cedula=cedula, ordenar_por=ordenar_por, orden=orden) }}">Anterior</a>
+            {% endif %}
+            
+            <span>Página {{ page }}</span>
+            
+            {% if len(personas) == per_page %}
+                <a href="{{ url_for('buscar_personas', page=page+1, nombre=nombre, email=email, cedula=cedula, ordenar_por=ordenar_por, orden=orden) }}">Siguiente</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    const icon = themeToggle.querySelector('i');
+    if (body.classList.contains('dark')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-list a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            // Eliminar clase 'active' de todos los enlaces
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            // Agregar clase 'active' al enlace que fue clicado
+            this.classList.add('active');
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-list a');
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.querySelector('.profile-menu');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Maneja el clic en el botón del perfil
+    profileBtn.addEventListener('click', function () {
+        profileMenu.classList.toggle('hidden');
+    });
+
+    // Cierra el menú si se hace clic fuera de él
+    document.addEventListener('click', function (event) {
+        if (!profileBtn.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.add('hidden');
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
